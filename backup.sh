@@ -4,7 +4,7 @@ PGDUMP_CMD=`python /usr/local/bin/pguri`
 BACKUP_NAME="$(date -u +%Y-%m-%d_%H-%M-%S)_UTC.gz"
 
 # Run backup
-$PGDUMP_CMD > /backup/latest.dump
+eval $PGDUMP_CMD
 # Compress backup
 cd /backup/ && tar -cvzf "${BACKUP_NAME}" latest.dump
 # Upload backup
