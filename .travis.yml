@@ -1,0 +1,22 @@
+---
+sudo: required
+
+services:
+  - docker
+
+env:
+  - VERSION=1.0.0
+
+install:
+  - docker build -t lgatica/pgdump-s3:latest -t lgatica/pgdump-s3:$VERSION .
+
+script:
+  - docker run --rm lgatica/pgdump-s3:$VERSION pg_dump --version
+
+after_success:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker push lgatica/pgdump-s3:latest
+  - docker push lgatica/pgdump-s3:$VERSION
+
+notifications:
+  email: false
